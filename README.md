@@ -1,28 +1,21 @@
-# streaming_demo
-
 🚀 Overcoming Azure Free Tier Limits for Real-Time Data Streaming!
-Building a real-time data streaming pipeline on Azure Free Tier came with challenges, but I improvised to make it work! Here’s how:
+Building a real-time data stream processing pipeline on Azure Free Tier comes with challenges, but as a Data Engineer, adaptability is key! Here’s how I improvised and replaced missing services to make it work:
 
-🔹 Data Ingestion:
-✔ Created Azure Event Hub & Namespace for streaming data.
-✔ Free Tier doesn’t support "Generate Data", so I:
+🔹 Data Ingestion: Created an Azure Event Hub & Namespace for streaming data ingestion. However, the Free Tier doesn’t support the "Generate Data" feature, so I built an external Python script that used the Event Hub shared key and the random library to generate & send real-time weather data.
 
-Built an external Python script to generate random weather data.
-Sent data to Event Hub using Shared Key authentication.
-🔹 Databricks Setup:
-✔ No Unity Catalog in Free Tier → Couldn’t create temp schemas.
-✔ Workaround: Used Hive Metastore and created:
+🔹 Databricks Setup: Due to no Unity Catalog in Free Tier, I couldn’t create temp schemas for data processing. Instead, I used Hive Metastore and created three databases (bronze, silver, gold) to store and process streaming data.
 
-Bronze Layer → Stores raw streaming data (bronze.weather).
-Silver Layer → Cleans & transforms data (silver.weather).
-Gold Layer → Computes 50-second rolling averages (gold.weather).
-🔹 Processing & Visualization Challenges:
-✔ Power BI does not support Databricks Free Tier → No direct integration.
-✔ Solution: Wrote Silver Layer data to Azure SQL Server, then connected Power BI via DirectQuery.
-✔ Issue: Power BI refreshes every 5 minutes, but data arrived every 10 seconds → Manual refresh needed to see updates.
+🔹 3-Layer Data Processing Architecture:
+✔ Bronze Layer – Receives raw streaming data, previews it, and writes to bronze.weather.
+✔ Silver Layer – Parses the event body into JSON, typecasts fields, and writes clean data to silver.weather.
+✔ Gold Layer – Uses watermarking & windowing to compute 50-second rolling averages (temperature, humidity, precipitation).
 
-💡 Key Takeaway:
-Even with Azure Free Tier limitations, I built a fully functional real-time streaming pipeline using Azure Event Hubs, Databricks, and Power BI.
+🔹 Visualization Challenge & Workaround:
+
+The Free Tier does not allow direct Power BI integration with Databricks.
+Solution: Wrote Silver Layer data to Azure SQL Server, then connected Power BI via DirectQuery.
+Issue: Power BI refreshes data every 5 minutes, but new messages arrived every 10 seconds. Manual refresh was needed to see real-time updates.
+💡 Takeaway: Constraints fuel innovation! Even with Azure Free Tier limitations, I was able to build, test, and optimize a real-time streaming pipeline using Azure Event Hubs, Databricks, and Power BI.
 
 Would love to connect with professionals working on real-time data processing & cloud engineering! 🚀
 
