@@ -1,8 +1,7 @@
 🚀 Overcoming Azure Free Tier Limits for Real-Time Data Streaming!
 Building a real-time data stream processing pipeline on Azure Free Tier comes with challenges, but as a Data Engineer, adaptability is key! Here’s how I improvised and replaced missing services to make it work:
 ![Book Cover](project_overview.png)
-🔹 Data Ingestion: Created an Azure Event Hub & Namespace for streaming data ingestion. However, the Free Tier doesn’t support the "Generate Data" feature, so I built an external Python script that used the Event Hub shared key and the random library to generate & send real-time weather data.
-
+🔹 Data Ingestion: Created an Azure Event Hub & Namespace for streaming data ingestion. However, the Free Tier doesn’t support the "Generate Data" feature, so I built an external Python script that used the Event Hub shared key and the random library to generate & send real-time weather data. ![Book Cover](Screenshot%20(37).png)
 🔹 Databricks Setup: Due to no Unity Catalog in Free Tier, I couldn’t create temp schemas for data processing. Instead, I used Hive Metastore and created three databases (bronze, silver, gold) to store and process streaming data.
 
 🔹 3-Layer Data Processing Architecture:
